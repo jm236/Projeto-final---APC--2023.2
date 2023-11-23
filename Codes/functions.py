@@ -40,25 +40,26 @@ def menu(tela, tam, largura, altura):
     
     pygame.display.flip()
 
-def draw_grid(t, tela, altura_jogo=10, largura_jogo=135):
-    branco = (255, 255, 255)
+def escolhe_cor(element):
+    if  element == ' ':
+        cor = (255, 255, 255)
+    elif element == '+':
+        cor = (0, 255, 0)
+    elif element == 'X':
+        cor = (255, 0, 0)
+    elif element == '>':
+        cor = (0, 100, 0)
 
-    for row in range(altura_jogo):
-        for col in range(largura_jogo):
-            pygame.draw.rect(tela, branco, (col * t, row * t, t, t), 1)
+    return cor
 
+def desenhar(screen, cor, x, y, size):
+    pygame.draw.rect(screen, cor, (x * size,
+    y * size, size, size))
 
-def draw_objects(grid, altura=10, largura=135):
-    
-    vermelho = (255, 0, 0)
-    branco = (255, 255, 255)
-    preto = (0, 0, 0)
-    verde = (0, 255, 0)
-    azul = (0, 0, 255)
-    verde_esc = (0, 100, 0)
-
-    for row in range(altura):
-        for col in range(largura):
-            obj = grid[row][col]
-            color = verde if obj == PLAYER else vermelho if obj == ENEMY else aul if obj == FUEL else verde_esc
-            pygame.draw.rect(tela_jogo, color, (col * tam_jogo, row * tam_jogo, tam_jogo, tam_jogo))
+def mostrar_matriz(matriz, altura, largura, tela, tamanho):
+    for i in range(0, altura):
+        for j in range(0, largura):
+                if matriz[i][j] == '+':
+                    desenhar(tela, (0, 255, 0), j, i, tamanho) # desenho do personagem
+                elif matriz[i][j] == '>':
+                    desenhar(tela, (0, 100, 0), j, i, tamanho) # desenho da bala
