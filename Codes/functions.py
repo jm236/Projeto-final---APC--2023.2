@@ -39,3 +39,26 @@ def menu(tela, tam, largura, altura):
     escrever(string, tela, "Monospace", branco, ((altura // 2) - 60), ((largura // 2) + 40), tam * 3)  
     
     pygame.display.flip()
+
+def draw_grid(t, tela, altura_jogo=10, largura_jogo=135):
+    branco = (255, 255, 255)
+
+    for row in range(altura_jogo):
+        for col in range(largura_jogo):
+            pygame.draw.rect(tela, branco, (col * t, row * t, t, t), 1)
+
+
+def draw_objects(grid, altura=10, largura=135):
+    
+    vermelho = (255, 0, 0)
+    branco = (255, 255, 255)
+    preto = (0, 0, 0)
+    verde = (0, 255, 0)
+    azul = (0, 0, 255)
+    verde_esc = (0, 100, 0)
+
+    for row in range(altura):
+        for col in range(largura):
+            obj = grid[row][col]
+            color = verde if obj == PLAYER else vermelho if obj == ENEMY else aul if obj == FUEL else verde_esc
+            pygame.draw.rect(tela_jogo, color, (col * tam_jogo, row * tam_jogo, tam_jogo, tam_jogo))
