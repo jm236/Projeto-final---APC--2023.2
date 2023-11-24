@@ -5,7 +5,7 @@ import pygame
 nome_do_jogo = 'GTA VII'
 aviso_um = 'Bem vindo! Pressione Enter para continuar'
 
-fps = 30 # fps do jogo
+fps = 20 # fps do jogo
 enter = 13 # codigo do enter no pygame
 inicio = True # variavel que indica que o jogo ainda esta na tela inicial 
 menu_inicial = False # variavel que indica se o jogo esta no menu 
@@ -44,7 +44,8 @@ matriz[player_y][player_x] = '+'
 pygame.init()
 
 # configuracao do fps
-config_fps(fps)
+clock = pygame.time.Clock()
+clock.tick(fps)
 
 screen = pygame.display.set_mode((altura_menu, largura_menu)) # tamanho da tela inicial
 pygame.display.set_caption("Jogo 2D - Bem-vindo!")
@@ -57,6 +58,7 @@ pygame.display.flip()
 
 running = True
 while running:
+
     # loop para eventos no jogo
     for event in pygame.event.get(): 
         if event.type == pygame.QUIT: # pygame.QUIT event means the user clicked X to close your window
@@ -80,12 +82,11 @@ while running:
                     playing, menu_inicial = True, False
                     tela_jogo = pygame.display.set_mode((largura_jogo * tam_jogo, altura_jogo * tam_jogo))
                     tela_jogo.fill(branco)
-                    pygame.display.flip()
 
-                    mostrar_matriz(matriz, altura_jogo, largura_jogo, tela_jogo, tam_jogo)                    
-                    pygame.display.flip()
+                    mostrar_player(matriz, altura_jogo, largura_jogo, tela_jogo, tam_jogo)
 
         if playing == True:
+
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_UP:
                     if player_y > 0:    
@@ -107,6 +108,12 @@ while running:
                     matriz[bala_y][bala_x + 1] = bala
                     desenhar(tela_jogo, verde_esc, bala_x, bala_y, tam_jogo) # desenho do personagem
                     pygame.display.flip()
+
+    clock.tick(fps)
+    if playing == True:
+        matriz = mover_objetos(matriz, altura_jogo, largura_jogo)
+        mostrar_matriz(matriz, altura_jogo, largura_jogo, tela_jogo, tam_jogo)
+        pygame.display.update()
 
 pygame.quit()
 

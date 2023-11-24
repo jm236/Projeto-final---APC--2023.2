@@ -59,7 +59,25 @@ def desenhar(screen, cor, x, y, size):
 def mostrar_matriz(matriz, altura, largura, tela, tamanho):
     for i in range(0, altura):
         for j in range(0, largura):
+                if matriz[i][j] == '>':
+                    desenhar(tela, (0, 100, 0), j, i, tamanho) # desenho da bala
+    pygame.display.flip()
+
+def mostrar_player(matriz, altura, largura, tela, tamanho):
+    for i in range(0, altura):
+        for j in range(0, largura):
                 if matriz[i][j] == '+':
                     desenhar(tela, (0, 255, 0), j, i, tamanho) # desenho do personagem
-                elif matriz[i][j] == '>':
-                    desenhar(tela, (0, 100, 0), j, i, tamanho) # desenho da bala
+    pygame.display.flip()
+
+def mover_objetos(matriz, altura, largura):
+    for i in range(0, altura):
+        for j in range(0, largura):
+            if matriz[i][j] == '>':
+                if j < (largura - 1):
+                    matriz[i][j + 1] = '>'
+                    matriz[i][j] = ' '
+                else:
+                    matriz[i][j] = ' '
+    
+    return matriz
