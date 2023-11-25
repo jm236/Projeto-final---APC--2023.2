@@ -1,4 +1,5 @@
 import pygame
+from random import randint
 
 def escrever(string, tela, fonte, cor, x, y, tamanho):
     """
@@ -7,6 +8,7 @@ def escrever(string, tela, fonte, cor, x, y, tamanho):
     font = pygame.font.SysFont(fonte, tamanho, True, True)
     texto = font.render(string, True, cor)
     tela.blit(texto, (x, y))
+    pygame.display.flip()
 
 def menu(tela, tam, largura, altura):
     """"
@@ -48,6 +50,8 @@ def escolhe_cor(element):
         cor = (255, 0, 0)
     elif element == '>':
         cor = (0, 100, 0)
+    elif element == 'F':
+        cor = (0, 0, 100)
 
     return cor
 
@@ -74,6 +78,7 @@ def mover_objetos(matriz, altura, largura):
     """
     função que move os objetos presentes no jogo(inimigos, balas e combustível)
     """
+    # movimentação dos tiros
     i = 0
     j = 0
     while i < altura:
@@ -89,6 +94,48 @@ def mover_objetos(matriz, altura, largura):
         j = 0
         i += 1
 
+    # movimentação dos inimigos e do combustível
+    i = 0
+    j = 0
+    while i < altura:
+        while j < largura:
+            if matriz[i][j] == 'X':
+                    if j > 0:
+                        matriz[i][j - 1] = 'X'
+                        matriz[i][j] = ' '
+                        j += 1
+                    elif j == 0:
+                        matriz[i][j] = ' '
+            elif matriz[i][j] == 'F':
+                    if j > 0:
+                        matriz[i][j - 1] = 'F'
+                        matriz[i][j] = ' '
+                        j += 1
+                    elif j == 0:
+                        matriz[i][j] = ' '
+            j += 1
+        j = 0
+        i += 1
 
+def spawn(matriz, objeto):
+    """
+    Função que spawna aleatoriamente inimigos ou combustível no mapa
+    """
+    b = randint(0, 10) # 1/3 de chance de spawnar
+    if b == 0:
+        qtde = randint(0, 2) # qtde de inimigos que vão aparecer
+        
+        if qtde > 0:
+                usadas = []
+                for i in range(0, qtde):
+                    while True:
+                        y = randint(0, 9)
+
+                        if y not in usadas:
+                            matriz[y][134] = objeto 
+                            usadas.append(y)
+                            break
+                del usadas
+                        
 
 
