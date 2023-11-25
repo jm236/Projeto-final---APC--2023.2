@@ -39,6 +39,9 @@ bala = '>'
 # energia inicial do personagem
 energ = 400
 
+# pontuação do jogador
+pont = 0
+
 # coordenadas do player
 player_x = 1
 player_y = 5
@@ -88,9 +91,11 @@ while running:
 
     if playing: # quando o jogo está rodando
         #movimentação dos objetos e atualização dos frames
+        mover_objetos(matriz, altura_jogo, largura_jogo, energ) 
         mostrar_matriz(matriz, altura_jogo, largura_jogo,tela_jogo, tam_jogo)
+        
         escrever(f'Energia: {energ}', tela_jogo, fonte, preto, 3, 0, tam_jogo)
-        mover_objetos(matriz, altura_jogo, largura_jogo)
+        escrever(f'Pontuação: {pont}', tela_jogo, fonte, preto, 600, 0, tam_jogo)
 
         # spawn de inimigos e combustível
         spawn(matriz, enemy)

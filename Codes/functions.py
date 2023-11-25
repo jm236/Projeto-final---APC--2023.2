@@ -74,10 +74,11 @@ def mostrar_matriz(matriz, altura, largura, tela, tamanho):
 
     pygame.display.flip()
 
-def mover_objetos(matriz, altura, largura):
+def mover_objetos(matriz, altura, largura, energ):
     """
     função que move os objetos presentes no jogo(inimigos, balas e combustível)
     """
+
     # movimentação dos tiros
     i = 0
     j = 0
@@ -85,9 +86,15 @@ def mover_objetos(matriz, altura, largura):
         while j < largura:
             if matriz[i][j] == '>':
                     if j < (largura - 1):
-                        matriz[i][j + 1] = '>'
-                        matriz[i][j] = ' '
-                        j += 1
+                        if matriz[i][j + 1] == ' ':
+                            matriz[i][j + 1] = '>'
+                            matriz[i][j] = ' '
+                            j += 1
+
+                        elif matriz[i][j + 1] == 'X':
+                            matriz[i][j + 1] = ' '
+                            matriz[i][j] = ' '
+
                     elif j == (largura - 1):
                         matriz[i][j] = ' '
             j += 1
@@ -101,16 +108,27 @@ def mover_objetos(matriz, altura, largura):
         while j < largura:
             if matriz[i][j] == 'X':
                     if j > 0:
-                        matriz[i][j - 1] = 'X'
-                        matriz[i][j] = ' '
-                        j += 1
+                        if matriz[i][j - 1] == ' ':
+                            matriz[i][j - 1] = 'X'
+                            matriz[i][j] = ' '
+                            j += 1
+
+                        elif matriz[i][j - 1] == '+': # morte do player
+                            matriz[i][j - 1] = ' '
+                            matriz[i][j] = ' '
+
                     elif j == 0:
                         matriz[i][j] = ' '
             elif matriz[i][j] == 'F':
                     if j > 0:
-                        matriz[i][j - 1] = 'F'
-                        matriz[i][j] = ' '
-                        j += 1
+                        if matriz[i][j - 1] == ' ':
+                            matriz[i][j - 1] = 'F'
+                            matriz[i][j] = ' '
+                            j += 1
+                        elif matriz[i][j - 1] == '+': # aumento do combustivel
+                            energ += 40
+                            matriz[i][j] = ' '
+                            j += 1
                     elif j == 0:
                         matriz[i][j] = ' '
             j += 1
