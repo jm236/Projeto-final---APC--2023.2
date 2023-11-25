@@ -18,6 +18,7 @@ def menu(tela, tam, largura, altura):
     vermelho = (255, 0, 0)
     branco = (255, 255, 255)
     preto = (0, 0, 0)
+    tela.fill(preto)
     
     escrever(nome_do_jogo, tela, "Monospace", vermelho, 225, 40, tam * 10)
 
@@ -62,7 +63,7 @@ def desenhar(screen, cor, x, y, size):
     pygame.draw.rect(screen, cor, (x * size,
     y * size, size, size))
 
-def mostrar_matriz(matriz, altura, largura, tela, tamanho):
+def mostrar_matriz(matriz, altura, largura, tela, tamanho, pont, energ, fonte):
     """
     Função que desenha todo o jogo na tela
     """
@@ -72,9 +73,11 @@ def mostrar_matriz(matriz, altura, largura, tela, tamanho):
         for j in range(0, largura):
                     desenhar(tela, escolhe_cor(matriz[i][j]), j, i, tamanho) # desenho
 
+    escrever(f'Energia: {energ}', tela, fonte, (0,0,0), 3, 0, tamanho)
+    escrever(f'Pontuação: {pont}', tela, fonte, (0,0,0), 600, 0, tamanho)
     pygame.display.flip()
 
-def mover_objetos(matriz, altura, largura, energ):
+def mover_objetos(matriz, altura, largura, pont, energ):
     """
     função que move os objetos presentes no jogo(inimigos, balas e combustível)
     """
@@ -91,7 +94,9 @@ def mover_objetos(matriz, altura, largura, energ):
                             matriz[i][j] = ' '
                             j += 1
 
-                        elif matriz[i][j + 1] == 'X':
+                        elif matriz[i][j + 1] == 'X' or matriz[i][j + 1] == 'F':
+                            if matriz[i][j + 1] == 'X':
+                                 pont += 50
                             matriz[i][j + 1] = ' '
                             matriz[i][j] = ' '
 
@@ -135,13 +140,17 @@ def mover_objetos(matriz, altura, largura, energ):
         j = 0
         i += 1
 
-def spawn(matriz, objeto):
+    # retorno da matriz e dos valores da energia e pontuação após a movimentação    
+    return matriz, pont, energ
+
+def spawn(matriz, objeto, prob, limpar, qtde_max):
     """
     Função que spawna aleatoriamente inimigos ou combustível no mapa
+    OBS: chance em porcentagem
     """
-    b = randint(0, 10) # 1/3 de chance de spawnar
-    if b == 0:
-        qtde = randint(0, 2) # qtde de inimigos que vão aparecer
+    b = randint(0, 100) 
+    if b <= prob:
+        qtde = randint(0, qtde_max) # qtde de inimigos que vão aparecer
         
         if qtde > 0:
                 usadas = []
@@ -153,7 +162,32 @@ def spawn(matriz, objeto):
                             matriz[y][134] = objeto 
                             usadas.append(y)
                             break
-                del usadas
+                if limpar:
+                    del usadas
+
+def morreu(matriz, altura, largura, comb):
+    """
+    Retorna se o jogador está morto ou vivo e o motivo da morte, respectivamente
+    """
+    for i in range(0, altura):
+        for j in range(0, largura):
+            if matriz[i][j] == '+':
+                if comb <= 0:
+                    return 'Sim gasosa'
+                else:
+                    return 'Não'
+            
+    return 'Sim atingido'
+    
                         
+def tela_morte(l, h, fonte, t, pont, motivo):
+    screen = pygame.display.set_mode((h, l))
+    screen.fill((0, 0, 0))
+
+    escrever('GAME OVER', screen, fonte, (255, 0, 0), 175, 50, t * 10)
+    escrever(f'Pontuação: {pont} pontos.', screen, fonte, (255, 255, 255), 235, 120, t * 3)
+    escrever(motivo, screen, fonte, (255, 255, 255), 230, 140, t * 3)
+    escrever('Aperte Enter para retornar ao menu.', screen, fonte, (255, 255, 255), 140, 250, t * 4)
 
 
+    pygame.display.flip()
