@@ -141,7 +141,7 @@ while running:
                         player_y += 1
                         energ -= 2
                 
-                elif event.key == pygame.K_t: # geração do tiro
+                elif event.key == pygame.K_SPACE: # geração do tiro
                     bala_y = player_y
                     bala_x = player_x + 1
                     matriz[bala_y][bala_x] = bala
@@ -149,6 +149,15 @@ while running:
 
     if game_overI:
         tela_morte(largura_menu, altura_menu, fonte, tam_menu, pont, motivo)
+        
+        # reset das configs do jogo para uma futura partida
+        contador = 0
+        energ = 400
+        pont = 0
+        limpar_matriz(matriz, altura_jogo, largura_jogo)
+        player_x = 1
+        player_y = 5
+        matriz[player_y][player_x] = '+'
         game_overI, game_overII = False, True
 
     if game_overII:

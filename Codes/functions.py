@@ -185,9 +185,18 @@ def tela_morte(l, h, fonte, t, pont, motivo):
     screen.fill((0, 0, 0))
 
     escrever('GAME OVER', screen, fonte, (255, 0, 0), 175, 50, t * 10)
-    escrever(f'Pontuação: {pont} pontos.', screen, fonte, (255, 255, 255), 235, 120, t * 3)
-    escrever(motivo, screen, fonte, (255, 255, 255), 230, 140, t * 3)
-    escrever('Aperte Enter para retornar ao menu.', screen, fonte, (255, 255, 255), 140, 250, t * 4)
+    escrever(f'Pontuação: {pont} pontos.', screen, fonte, (255, 255, 255), 200, 120, t * 3)
+    if motivo == 'Te atingiram, presta mais atenção na próxima':
+        escrever(motivo, screen, fonte, (255, 255, 255), 130, 140, t * 3)
+    else:
+        escrever(motivo, screen, fonte, (255, 255, 255), 170, 140, t * 3)
+         
+    escrever('Aperte Enter para retornar ao menu.', screen, fonte, (255, 255, 255), 120, 250, t * 4)
 
 
     pygame.display.flip()
+
+def limpar_matriz(grid, h, l):
+     for i in range(0, h):
+          for j in range(0, l):
+               grid[i][j] = ' '
