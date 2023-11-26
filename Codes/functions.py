@@ -200,3 +200,9 @@ def limpar_matriz(grid, h, l):
      for i in range(0, h):
           for j in range(0, l):
                grid[i][j] = ' '
+
+def resetar_contador(c, e):
+    if c == 20:
+        c = 0 # reseta o contador
+        e -= 1 # diminuição da energia do personagem a cada frame
+    return c, e

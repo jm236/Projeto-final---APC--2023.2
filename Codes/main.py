@@ -61,7 +61,7 @@ pygame.init()
 clock = pygame.time.Clock()
 
 screen = pygame.display.set_mode((altura_menu, largura_menu)) # tamanho da tela inicial
-pygame.display.set_caption("GTA VII")
+pygame.display.set_caption(nome_do_jogo)
 
 # escrita da msg inicial ao abrir o jogo
 escrever(nome_do_jogo, screen, fonte, vermelho, 200, 135, tam_menu * 10)
@@ -80,7 +80,6 @@ while running:
             if event.type == pygame.KEYDOWN:
                 if event.key == 13:
                     inicio, menu_inicial = False, True # o jogo nao esta mais no inicio
-                    screen.fill(preto)
                     menu(screen, tam_menu, largura_menu, altura_menu) # função que apresentará o menu inicial do game
                     pygame.display.flip()
 
@@ -94,21 +93,19 @@ while running:
 
                 elif event.key == pygame.K_1: # 1 pra jogar
                     playing, menu_inicial = True, False
-                    contador = 0
                     tela_jogo = pygame.display.set_mode((largura_jogo * tam_jogo, altura_jogo * tam_jogo))
 
     if playing: # quando o jogo está rodando
 
-        if contador == 20:
-            contador = 0 # reseta o contador
-            energ -= 1 # diminuição da energia do personagem a cada frame
+        contador, energ = resetar_contador(contador,energ)
         
         #movimentação dos objetos e atualização dos frames
         matriz, pont, energ = mover_objetos(matriz, altura_jogo, largura_jogo, pont, energ)
 
         # verificação da morte do personagem 
-        if 'Sim' in morreu(matriz, altura_jogo, largura_jogo, energ): 
-            if 'gasosa' in morreu(matriz, altura_jogo, largura_jogo, energ):
+        morte = morreu(matriz, altura_jogo, largura_jogo, energ)
+        if 'Sim' in morte: 
+            if 'gasosa' in morte:
                 motivo = 'Deixou a energia acabar =/'
             else:
                 motivo = 'Te atingiram, presta mais atenção na próxima'
