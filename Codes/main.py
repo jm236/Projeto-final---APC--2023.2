@@ -3,7 +3,6 @@ import pygame
 
 #  definição das variaveis utilizadas no jogo
 nome_do_jogo = 'GTA VII'
-aviso_um = 'Bem vindo! Pressione Enter para continuar'
 fonte = "Monospace"
 
 fps = 20 # fps do jogo
@@ -66,7 +65,7 @@ pygame.display.set_caption(nome_do_jogo)
 
 # escrita da msg inicial ao abrir o jogo
 escrever(nome_do_jogo, screen, fonte, vermelho, 200, 135, tam_menu * 10)
-escrever(aviso_um, screen, fonte, branco, 180, 250, tam_menu * 2)
+escrever('Bem vindo! Pressione Enter para continuar', screen, fonte, branco, 180, 250, tam_menu * 2)
 pygame.display.flip()
 
 running = True
@@ -81,8 +80,7 @@ while running:
             if event.type == pygame.KEYDOWN:
                 if event.key == 13:
                     inicio, menu_inicial = False, True # o jogo nao esta mais no inicio
-                    menu(screen, tam_menu, largura_menu, altura_menu) # função que apresentará o menu inicial do game
-                    pygame.display.flip()
+                    menu(screen, tam_menu, largura_menu, altura_menu, fonte) # função que apresentará o menu inicial do game
 
     if menu_inicial: # quando está no menu inicial
         for event in pygame.event.get():
@@ -98,24 +96,31 @@ while running:
 
                 elif event.key == pygame.K_4:
                     instrucoes, menu_inicial = True, False
-                    mostrar_instrucoes(altura_menu, largura_menu, preto)
+                    mostrar_instrucoes(altura_menu, largura_menu, preto, branco, tam_menu, fonte)
+
+    if instrucoes:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT: # pygame.QUIT event means the user clicked X to close your window
+                running = False
+
+            if event.type == pygame.KEYDOWN:
+                if event.key == 13:
+                    menu_inicial, instrucoes = True, False # o jogo nao esta mais no inicio
+                    menu(screen, tam_menu, largura_menu, altura_menu) # função que apresentará o menu inicial do game
+
 
 
     if playing: # quando o jogo está rodando
 
-        contador, energ = resetar_contador(contador,energ)
+        contador, energ = resetar_contador(contador,energ) # reset do contador e da energia
         
         #movimentação dos objetos e atualização dos frames
         matriz, pont, energ = mover_objetos(matriz, altura_jogo, largura_jogo, pont, energ)
 
-        # verificação da morte do personagem 
+        # verificação da morte do personagem e do motivo dela 
         morte = morreu(matriz, altura_jogo, largura_jogo, energ)
-        if 'Sim' in morte: 
-            if 'gasosa' in morte:
-                motivo = 'Deixou a energia acabar =/'
-            else:
-                motivo = 'Te atingiram, presta mais atenção na próxima'
-
+        motivo = motivo_morte(morte)
+        if morte:
             game_overI, playing = True, False # encerramento da partida em caso de morte do jogador
 
         mostrar_matriz(matriz, altura_jogo, largura_jogo,tela_jogo, tam_jogo, pont, energ, fonte)

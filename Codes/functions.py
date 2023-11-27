@@ -10,7 +10,7 @@ def escrever(string, tela, fonte, cor, x, y, tamanho):
     tela.blit(texto, (x, y))
     pygame.display.flip()
 
-def menu(tela, tam, largura, altura):
+def menu(tela, tam, largura, altura, fonte):
     """"
     Função que apresenta o menu inicial na tela
     """
@@ -20,22 +20,22 @@ def menu(tela, tam, largura, altura):
     preto = (0, 0, 0)
     tela.fill(preto)
     
-    escrever(nome_do_jogo, tela, "Monospace", vermelho, 225, 40, tam * 10)
+    escrever(nome_do_jogo, tela, fonte, vermelho, 225, 40, tam * 10)
 
     string = "1- Jogar"
-    escrever(string, tela, "Monospace", branco, ((altura // 2) - 60), ((largura // 2) - 40), tam * 3)   
+    escrever(string, tela, fonte, branco, ((altura // 2) - 60), ((largura // 2) - 40), tam * 3)   
 
-    string = "2- Configurações" 
-    escrever(string, tela, "Monospace", branco, ((altura // 2) - 60), ((largura // 2) - 20), tam * 3)  
+    string = "2- Configurações(Ainda não implementado!)" 
+    escrever(string, tela, fonte, branco, ((altura // 2) - 60), ((largura // 2) - 20), tam * 3)  
 
-    string = "3- Ranking" 
-    escrever(string, tela, "Monospace", branco, ((altura // 2) - 60), ((largura // 2)), tam * 3) 
+    string = "3- Ranking(Ainda não implementado!)" 
+    escrever(string, tela, fonte, branco, ((altura // 2) - 60), ((largura // 2)), tam * 3) 
 
     string = "4- Instruções" 
-    escrever(string, tela, "Monospace", branco, ((altura // 2) - 60), ((largura // 2) + 20), tam * 3)
+    escrever(string, tela, fonte, branco, ((altura // 2) - 60), ((largura // 2) + 20), tam * 3)
 
     string = "5- Sair" 
-    escrever(string, tela, "Monospace", branco, ((altura // 2) - 60), ((largura // 2) + 40), tam * 3)  
+    escrever(string, tela, fonte, branco, ((altura // 2) - 60), ((largura // 2) + 40), tam * 3)  
     
     pygame.display.flip()
 
@@ -178,9 +178,21 @@ def morreu(matriz, altura, largura, comb):
                     return 'Não'
             
     return 'Sim atingido'
-    
+
+def motivo_morte(morte):
+     """
+     Função que retorna o motivo da morte do jogador.
+     """
+     if 'Sim' in morte: 
+            if 'gasosa' in morte:
+                return 'Deixou a energia acabar =/'
+            else:
+                return 'Te atingiram, presta mais atenção na próxima'
                         
 def tela_morte(l, h, fonte, t, pont, motivo):
+    """
+    Função que apresenta a tela de game over.
+    """
     screen = pygame.display.set_mode((h, l))
     screen.fill((0, 0, 0))
 
@@ -197,17 +209,62 @@ def tela_morte(l, h, fonte, t, pont, motivo):
     pygame.display.flip()
 
 def limpar_matriz(grid, h, l):
+     """
+     Função para a limpeza da matriz para o possível início
+     de uma futura partida
+     """
      for i in range(0, h):
           for j in range(0, l):
                grid[i][j] = ' '
 
 def resetar_contador(c, e):
+    """
+    Função que reseta o contador de segundos a cada segundo
+    e diminui a energia do personagem em 1.
+    """
     if c == 20:
         c = 0 # reseta o contador
         e -= 1 # diminuição da energia do personagem a cada frame
     return c, e
 
-def mostrar_instrucoes(h, l, cor):
-     screen = pygame.display.set_mode((h, l))
-     screen.fill(cor)
-     pygame.display.flip
+def mostrar_instrucoes(h, l, corI, corII, tam, fonte): 
+    """
+    Função que apresenta a tela de instruções.
+    """   
+    screen = pygame.display.set_mode((h, l))
+    screen.fill(corI)
+
+    string = 'Para se movimentar para cima ou para baixo' 
+    escrever(string, screen, fonte, corII, (h // 8), (l // 8)+20, tam * 3)
+    
+    string = 'e desviar dos inimigos, utilize as setas;'
+    escrever(string, screen, fonte, corII, (h // 8), (l // 8)+40, tam * 3)
+
+    string = 'Para atirar em seus inimigos e não ser'
+    escrever(string, screen, fonte, corII, (h // 8), (l // 8)+60, tam * 3)
+
+    string = 'atacado, aperte espaço;'
+    escrever(string, screen, fonte, corII, (h // 8), (l // 8)+80, tam * 3)
+
+    string = 'Lembre-se que atirar ou se movimentar custam'
+    escrever(string, screen, fonte, corII, (h // 8), (l // 8)+100, tam * 3)
+
+    string = 'respectivamente 3 e 2 pontos de energia;'
+    escrever(string, screen, fonte, corII, (h // 8), (l // 8)+120, tam * 3)
+
+    string = 'Matar um inimigo aumenta sua pontuação em 50 pontos;'
+    escrever(string, screen, fonte, corII, (h // 8), (l // 8)+140, tam * 3)
+
+    string = 'Sempre colete pontos de energia, pois'
+    escrever(string, screen, fonte, corII, (h // 8), (l // 8)+160, tam * 3)
+
+    string = 'ela pode acabar uma hora;'
+    escrever(string, screen, fonte, corII, (h // 8), (l // 8)+180, tam * 3)
+
+    string = 'Faça o máximo de pontos que conseguir e divirta-se!'
+    escrever(string, screen, fonte, corII, (h // 8), (l // 8)+200, tam * 3)
+
+    string = 'Pressione Enter para retornar ao menu.'
+    escrever(string, screen, fonte, corII, (h // 8), (l // 8)+230, tam * 3)
+    
+    pygame.display.flip()
