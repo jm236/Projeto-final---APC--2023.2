@@ -206,3 +206,8 @@ def resetar_contador(c, e):
         c = 0 # reseta o contador
         e -= 1 # diminuição da energia do personagem a cada frame
     return c, e
+
+def mostrar_instrucoes(h, l, cor):
+     screen = pygame.display.set_mode((h, l))
+     screen.fill(cor)
+     pygame.display.flip

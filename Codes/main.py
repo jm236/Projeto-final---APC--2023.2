@@ -14,6 +14,7 @@ menu_inicial = False # variavel que indica se o jogo esta no menu
 playing = False # variavel que indica se o jogo ta rodando
 game_overI = False # variavel que indica se o jogo esta na tela de game over
 game_overII = False
+instrucoes = False
 
 tam_jogo = 15
 largura_jogo = 135
@@ -95,6 +96,11 @@ while running:
                     playing, menu_inicial = True, False
                     tela_jogo = pygame.display.set_mode((largura_jogo * tam_jogo, altura_jogo * tam_jogo))
 
+                elif event.key == pygame.K_4:
+                    instrucoes, menu_inicial = True, False
+                    mostrar_instrucoes(altura_menu, largura_menu, preto)
+
+
     if playing: # quando o jogo está rodando
 
         contador, energ = resetar_contador(contador,energ)
@@ -148,12 +154,9 @@ while running:
         tela_morte(largura_menu, altura_menu, fonte, tam_menu, pont, motivo)
         
         # reset das configs do jogo para uma futura partida
-        contador = 0
-        energ = 400
-        pont = 0
+        contador, energ, pont = 0, 400, 0
         limpar_matriz(matriz, altura_jogo, largura_jogo)
-        player_x = 1
-        player_y = 5
+        player_x, player_y = 1, 5
         matriz[player_y][player_x] = '+'
         game_overI, game_overII = False, True
 
