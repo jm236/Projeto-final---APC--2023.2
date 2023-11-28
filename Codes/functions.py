@@ -20,22 +20,22 @@ def menu(tela, tam, largura, altura, fonte):
     preto = (0, 0, 0)
     tela.fill(preto)
     
-    escrever(nome_do_jogo, tela, fonte, vermelho, 225, 40, tam * 10)
+    escrever(nome_do_jogo, tela, fonte, vermelho, 160, 40, tam * 10)
 
     string = "1- Jogar"
-    escrever(string, tela, fonte, branco, ((altura // 2) - 60), ((largura // 2) - 40), tam * 3)   
+    escrever(string, tela, fonte, branco, (largura // 2),((altura // 4) - 40), tam * 3)   
 
     string = "2- Configurações(Ainda não implementado!)" 
-    escrever(string, tela, fonte, branco, ((altura // 2) - 60), ((largura // 2) - 20), tam * 3)  
+    escrever(string, tela, fonte, branco, (largura // 2),((altura // 4) - 20), tam * 3)  
 
     string = "3- Ranking(Ainda não implementado!)" 
-    escrever(string, tela, fonte, branco, ((altura // 2) - 60), ((largura // 2)), tam * 3) 
+    escrever(string, tela, fonte, branco, (largura // 2),((altura // 4)), tam * 3) 
 
     string = "4- Instruções" 
-    escrever(string, tela, fonte, branco, ((altura // 2) - 60), ((largura // 2) + 20), tam * 3)
+    escrever(string, tela, fonte, branco, (largura // 2),((altura // 4) + 20), tam * 3)
 
     string = "5- Sair" 
-    escrever(string, tela, fonte, branco, ((altura // 2) - 60), ((largura // 2) + 40), tam * 3)  
+    escrever(string, tela, fonte, branco, (largura // 2),((altura // 4) + 40), tam * 3)  
     
     pygame.display.flip()
 
@@ -165,25 +165,23 @@ def spawn(matriz, objeto, prob, limpar, qtde_max):
                 if limpar:
                     del usadas
 
-def morreu(matriz, altura, largura, comb):
+def morreu(matriz, comb, y):
     """
     Retorna se o jogador está morto ou vivo e o motivo da morte, respectivamente
     """
-    for i in range(0, altura):
-        for j in range(0, largura):
-            if matriz[i][j] == '+':
-                if comb <= 0:
-                    return 'Sim gasosa'
-                else:
-                    return 'Não'
-            
-    return 'Sim atingido'
+    if '+' in matriz[y]:
+        if comb <= 0:
+            return 'sim gasosa'
+        else:
+            return 'não'
+    else:        
+        return 'sim atingido'
 
 def motivo_morte(morte):
      """
      Função que retorna o motivo da morte do jogador.
      """
-     if 'Sim' in morte: 
+     if 'sim' in morte: 
             if 'gasosa' in morte:
                 return 'Deixou a energia acabar =/'
             else:

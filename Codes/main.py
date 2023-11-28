@@ -3,7 +3,7 @@ import pygame
 
 #  definição das variaveis utilizadas no jogo
 nome_do_jogo = 'GTA VII'
-fonte = "Monospace"
+fonte = "timesnewroman"
 
 fps = 20 # fps do jogo
 contador = 0 # contador que aumenta a cada frame, quando chega em 20 o combustivel diminui
@@ -106,7 +106,7 @@ while running:
             if event.type == pygame.KEYDOWN:
                 if event.key == 13:
                     menu_inicial, instrucoes = True, False # o jogo nao esta mais no inicio
-                    menu(screen, tam_menu, largura_menu, altura_menu) # função que apresentará o menu inicial do game
+                    menu(screen, tam_menu, largura_menu, altura_menu, fonte) # função que apresentará o menu inicial do game
 
 
 
@@ -118,9 +118,9 @@ while running:
         matriz, pont, energ = mover_objetos(matriz, altura_jogo, largura_jogo, pont, energ)
 
         # verificação da morte do personagem e do motivo dela 
-        morte = morreu(matriz, altura_jogo, largura_jogo, energ)
+        morte = morreu(matriz, energ, player_y)
         motivo = motivo_morte(morte)
-        if morte:
+        if 'sim' in morte:
             game_overI, playing = True, False # encerramento da partida em caso de morte do jogador
 
         mostrar_matriz(matriz, altura_jogo, largura_jogo,tela_jogo, tam_jogo, pont, energ, fonte)
@@ -173,7 +173,7 @@ while running:
             if event.type == pygame.KEYDOWN:
                 if event.key == 13:
                     game_over, menu_inicial = False, True # o jogo nao esta mais no inicio
-                    menu(screen, tam_menu, largura_menu, altura_menu) # função que apresentará o menu inicial do game
+                    menu(screen, tam_menu, largura_menu, altura_menu, fonte) # função que apresentará o menu inicial do game
                     pygame.display.flip()
         
     clock.tick(fps)
