@@ -1,9 +1,28 @@
-from functions import *
+"""
+Universidade de Brasilia
+Instituto de Ciencias Exatas
+Departamento de Ciencia da Computacao
+Algoritmos e Programação de Computadores - 2/2023
+Turma: Prof. Carla Castanho e Prof. Frank Ned
+Aluno(a): João Marcelo Costa de Santana
+Matricula: 232023790
+Projeto Final - Parte 1
+Descricao: Projeto desenvolvido utilizando os conceitos aprendidos em aula e
+as bibliotecas pygame e random. O projeto consiste num jogo 2D onde o jogador 
+movimenta um boneco para cima e para baixo e também pode atirar. Inimigos e
+células de combustível surgem constantemente no mapa e vão da esquerda para 
+a direita. O objetivo do jogador é desviar dos inimigos e ao mesmo tempo coletar
+o máximo de combustível que puder e atirar nos inimigos para aumentar sua pontuação.
+"""
+
+from menu import *
+from game import *
+from gameover import *
 import pygame
 
 #  definição das variaveis utilizadas no jogo
 nome_do_jogo = 'GTA VII'
-fonte = "timesnewroman"
+fonte = "monospace"
 
 fps = 20 # fps do jogo
 contador = 0 # contador que aumenta a cada frame, quando chega em 20 o combustivel diminui
@@ -14,6 +33,7 @@ playing = False # variavel que indica se o jogo ta rodando
 game_overI = False # variavel que indica se o jogo esta na tela de game over
 game_overII = False
 instrucoes = False
+paused = False
 
 tam_jogo = 15
 largura_jogo = 135
@@ -155,6 +175,23 @@ while running:
                     matriz[bala_y][bala_x] = bala
                     energ -= 3
 
+                elif event.key == pygame.K_p:
+                    paused, playing = True, False
+                
+                elif event.key == 13: # Enter dropa do jogo
+                    menu_inicial = True
+                    playing = False
+
+                    # reset das configs do jogo para uma futura partida
+                    contador, energ, pont = 0, 400, 0
+                    limpar_matriz(matriz, altura_jogo, largura_jogo)
+                    player_x, player_y = 1, 5
+                    matriz[player_y][player_x] = '+'
+                    screen = pygame.display.set_mode((altura_menu, largura_menu))
+                    menu(screen, tam_menu, largura_menu, altura_menu, fonte) # função que apresentará o menu inicial do game
+                    pygame.display.flip()
+
+
     if game_overI:
         tela_morte(largura_menu, altura_menu, fonte, tam_menu, pont, motivo)
         
@@ -175,6 +212,28 @@ while running:
                     game_over, menu_inicial = False, True # o jogo nao esta mais no inicio
                     menu(screen, tam_menu, largura_menu, altura_menu, fonte) # função que apresentará o menu inicial do game
                     pygame.display.flip()
+
+    if  paused:
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_p:
+                    paused, playing = False, True
+
+                elif event.key == 13: # Enter dropa do jogo
+                    menu_inicial = True
+                    playing = False
+
+                    # reset das configs do jogo para uma futura partida
+                    contador, energ, pont = 0, 400, 0
+                    limpar_matriz(matriz, altura_jogo, largura_jogo)
+                    player_x, player_y = 1, 5
+                    matriz[player_y][player_x] = '+'
+                    screen = pygame.display.set_mode((altura_menu, largura_menu))
+                    menu(screen, tam_menu, largura_menu, altura_menu, fonte) # função que apresentará o menu inicial do game
+                    pygame.display.flip()
+
+
+
         
     clock.tick(fps)
     
