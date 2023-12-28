@@ -34,6 +34,7 @@ game_overI = False # variavel que indica se o jogo esta na tela de game over
 game_overII = False
 instrucoes = False
 paused = False
+teste = False
 
 tam_jogo = 15
 largura_jogo = 135
@@ -58,6 +59,9 @@ player = '+'
 enemy = 'X'
 comb = 'F'
 bala = '>'
+
+# carregando as imagens
+player_img = pygame.image.load(".\imagens\cj-normal.png")
 
 # energia inicial do personagem
 energ = 400
@@ -117,6 +121,10 @@ while running:
                 elif event.key == pygame.K_4:
                     instrucoes, menu_inicial = True, False
                     mostrar_instrucoes(altura_menu, largura_menu, preto, branco, tam_menu, fonte)
+
+                elif event.key == pygame.K_6:
+                    menu_inicial, teste = False, True
+                    tela_jogo = pygame.display.set_mode((largura_jogo * tam_jogo, altura_jogo * tam_jogo))
 
     if instrucoes:
         for event in pygame.event.get():
@@ -232,6 +240,10 @@ while running:
                     menu(screen, tam_menu, largura_menu, altura_menu, fonte) # função que apresentará o menu inicial do game
                     pygame.display.flip()
 
+    if teste:
+        
+        tela_jogo.blit(player_img,(player_x, player_y))
+        pygame.display.flip()
 
 
         

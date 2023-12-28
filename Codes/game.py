@@ -29,15 +29,24 @@ def desenhar(screen, cor, x, y, size):
     pygame.draw.rect(screen, cor, (x * size,
     y * size, size, size))
 
+def desenhar_img(img, x, y, screen):
+     
+     screen.blit(img, (x,y))
+     pygame.display.flip()
+     
 def mostrar_matriz(matriz, altura, largura, tela, tamanho, pont, energ, fonte):
     """
     Função que desenha todo o jogo na tela
     """
     tela.fill((255, 255, 255))
+    player_img = pygame.image.load(".\imagens\cj-normal.png")
 
     for i in range(0, altura):
         for j in range(0, largura):
-                    desenhar(tela, escolhe_cor(matriz[i][j]), j, i, tamanho) # desenho
+                    if matriz[i][j] == '+':
+                         desenhar_img(player_img, j, i, tela)
+                    else:
+                        desenhar(tela, escolhe_cor(matriz[i][j]), j, i, tamanho) # desenho
 
     escrever(f'Energia: {energ}', tela, fonte, (0,0,0), 3, 0, tamanho)
     escrever(f'Pontuação: {pont}', tela, fonte, (0,0,0), 600, 0, tamanho)
