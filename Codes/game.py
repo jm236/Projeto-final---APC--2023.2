@@ -2,30 +2,16 @@ import pygame
 from menu import *
 from random import randint
 
+# carregamento das imagens utilizadas
 player_img = pygame.image.load(".\imagens\cj-normal.png")
 player_shooting_img = pygame.image.load('.\imagens\cj-atirando.png')
 tiro_img = pygame.image.load(".\imagens\-bala-direita.png")
+creatina_img = pygame.image.load(".\imagens\creatina.png")
+inimigo_img = pygame.image.load(".\imagens\inimigo-i.png")
 
 """
 Arquivo com funções usadas enquanto o jogo roda.
 """
-
-def escolhe_cor(element):
-    """
-    Função que escolhe a cor de acordo com o elemento do jogo (inimigo, jogador, bala ou combustível)
-    """
-    if  element == ' ':
-        cor = (255, 255, 255)
-    elif element == '+':
-        cor = (0, 255, 0)
-    elif element == 'X':
-        cor = (255, 0, 0)
-    elif element == '>':
-        cor = (0, 100, 0)
-    elif element == 'F':
-        cor = (0, 0, 100)
-
-    return cor
 
 def desenhar(screen, cor, x, y, size):
     """"
@@ -34,15 +20,22 @@ def desenhar(screen, cor, x, y, size):
     pygame.draw.rect(screen, cor, (x * size,
     y * size, size, size))
 
-def desenhar_img(element, x, y, screen, size, player=player_img, tiro=tiro_img, player_shooting=player_shooting_img):
+def desenhar_img(element, x, y, screen, size):
+    global player_img, player_shooting_img, tiro_img, creatina_img, inimigo_img
+
     x *= size
     y *= size
+    
     if element == '+':
-        screen.blit(player, (x,y))
+        screen.blit(player_img, (x,y))
     elif element == '>':
-        screen.blit(tiro, (x, y))
+        screen.blit(tiro_img, (x, y))
     elif element == '++':
-        screen.blit(player_shooting, (x, y))
+        screen.blit(player_shooting_img, (x, y))
+    elif element == 'F':
+        screen.blit(creatina_img, (x, y))
+    elif element == 'X':
+        screen.blit(inimigo_img, (x, y))
 
      
 def mostrar_matriz(matriz, altura, largura, tela, tamanho, pont, energ, fonte):

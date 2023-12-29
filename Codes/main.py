@@ -19,7 +19,7 @@ game_overII = False
 instrucoes = False
 paused = False
 
-tam_jogo = 15
+tam_jogo = 20
 largura_jogo = 135
 altura_jogo = 10
 tam_menu = 5 # tamanho da tela
@@ -43,11 +43,6 @@ player_atirando = '++'
 enemy = 'X'
 comb = 'F'
 bala = '>'
-
-# carregando as imagens
-player_img = pygame.image.load(".\imagens\cj-normal.png")
-player_shooting_img = pygame.image.load('.\imagens\cj-atirando.png')
-tiro_img = pygame.image.load(".\imagens\-bala-direita.png")
 
 # energia inicial do personagem
 energ = 400
@@ -149,8 +144,8 @@ while running:
         contador += 1
 
         # spawn de inimigos e combustível
-        #spawn(matriz, enemy, prob_enemies, False, 4)
-        #spawn(matriz, comb, prob_fuel, True, 2)
+        spawn(matriz, enemy, prob_enemies, False, 4)
+        spawn(matriz, comb, prob_fuel, True, 2)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT: # pygame.QUIT event means the user clicked X to close your window
