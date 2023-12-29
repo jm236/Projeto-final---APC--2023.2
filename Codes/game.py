@@ -1,6 +1,11 @@
 import pygame
 from menu import *
 from random import randint
+
+player_img = pygame.image.load(".\imagens\cj-normal.png")
+player_shooting_img = pygame.image.load('.\imagens\cj-atirando.png')
+tiro_img = pygame.image.load(".\imagens\-bala-direita.png")
+
 """
 Arquivo com funções usadas enquanto o jogo roda.
 """
@@ -29,24 +34,26 @@ def desenhar(screen, cor, x, y, size):
     pygame.draw.rect(screen, cor, (x * size,
     y * size, size, size))
 
-def desenhar_img(img, x, y, screen):
-     
-     screen.blit(img, (x,y))
-     pygame.display.flip()
+def desenhar_img(element, x, y, screen, size, player=player_img, tiro=tiro_img, player_shooting=player_shooting_img):
+    x *= size
+    y *= size
+    if element == '+':
+        screen.blit(player, (x,y))
+    elif element == '>':
+        screen.blit(tiro, (x, y))
+    elif element == '++':
+        screen.blit(player_shooting, (x, y))
+
      
 def mostrar_matriz(matriz, altura, largura, tela, tamanho, pont, energ, fonte):
     """
     Função que desenha todo o jogo na tela
     """
     tela.fill((255, 255, 255))
-    player_img = pygame.image.load(".\imagens\cj-normal.png")
 
     for i in range(0, altura):
         for j in range(0, largura):
-                    if matriz[i][j] == '+':
-                         desenhar_img(player_img, j, i, tela)
-                    else:
-                        desenhar(tela, escolhe_cor(matriz[i][j]), j, i, tamanho) # desenho
+            desenhar_img(matriz[i][j], j, i, tela, tamanho)
 
     escrever(f'Energia: {energ}', tela, fonte, (0,0,0), 3, 0, tamanho)
     escrever(f'Pontuação: {pont}', tela, fonte, (0,0,0), 600, 0, tamanho)
@@ -77,6 +84,7 @@ def mover_objetos(matriz, altura, largura, pont, energ):
 
                     elif j == (largura - 1):
                         matriz[i][j] = ' '
+
             j += 1
         j = 0
         i += 1

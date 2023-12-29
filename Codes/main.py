@@ -1,23 +1,7 @@
-"""
-Universidade de Brasilia
-Instituto de Ciencias Exatas
-Departamento de Ciencia da Computacao
-Algoritmos e Programação de Computadores - 2/2023
-Turma: Prof. Carla Castanho e Prof. Frank Ned
-Aluno(a): João Marcelo Costa de Santana
-Matricula: 232023790
-Projeto Final - Parte 1
-Descricao: Projeto desenvolvido utilizando os conceitos aprendidos em aula e
-as bibliotecas pygame e random. O projeto consiste num jogo 2D onde o jogador 
-movimenta um boneco para cima e para baixo e também pode atirar. Inimigos e
-células de combustível surgem constantemente no mapa e vão da esquerda para 
-a direita. O objetivo do jogador é desviar dos inimigos e ao mesmo tempo coletar
-o máximo de combustível que puder e atirar nos inimigos para aumentar sua pontuação.
-"""
-
 from menu import *
 from game import *
 from gameover import *
+from time import sleep
 import pygame
 
 #  definição das variaveis utilizadas no jogo
@@ -34,7 +18,6 @@ game_overI = False # variavel que indica se o jogo esta na tela de game over
 game_overII = False
 instrucoes = False
 paused = False
-teste = False
 
 tam_jogo = 15
 largura_jogo = 135
@@ -56,12 +39,15 @@ verde_esc = (0, 100, 0)
 
 # Definição de objetos no jogo
 player = '+'
+player_atirando = '++'
 enemy = 'X'
 comb = 'F'
 bala = '>'
 
 # carregando as imagens
 player_img = pygame.image.load(".\imagens\cj-normal.png")
+player_shooting_img = pygame.image.load('.\imagens\cj-atirando.png')
+tiro_img = pygame.image.load(".\imagens\-bala-direita.png")
 
 # energia inicial do personagem
 energ = 400
@@ -69,6 +55,9 @@ energ = 400
 #probabilidades de serem gerados
 prob_enemies = 25
 prob_fuel = 5
+
+# variavel usada na animacao do cj atirando
+duracao_animacao = -1
 
 # pontuação do jogador
 pont = 0
@@ -141,6 +130,11 @@ while running:
     if playing: # quando o jogo está rodando
 
         contador, energ = resetar_contador(contador,energ) # reset do contador e da energia
+        if duracao_animacao > 0:
+            duracao_animacao -= 1
+        elif duracao_animacao == 0:
+            matriz[player_y][player_x] = player
+            duracao_animacao = -1 
         
         #movimentação dos objetos e atualização dos frames
         matriz, pont, energ = mover_objetos(matriz, altura_jogo, largura_jogo, pont, energ)
@@ -155,8 +149,8 @@ while running:
         contador += 1
 
         # spawn de inimigos e combustível
-        spawn(matriz, enemy, prob_enemies, False, 4)
-        spawn(matriz, comb, prob_fuel, True, 2)
+        #spawn(matriz, enemy, prob_enemies, False, 4)
+        #spawn(matriz, comb, prob_fuel, True, 2)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT: # pygame.QUIT event means the user clicked X to close your window
@@ -181,6 +175,8 @@ while running:
                     bala_y = player_y
                     bala_x = player_x + 1
                     matriz[bala_y][bala_x] = bala
+                    matriz[player_y][player_x] = player_atirando
+                    duracao_animacao = 6 # indica qtos frames a imagem do cj atirando vai ficar
                     energ -= 3
 
                 elif event.key == pygame.K_p:
@@ -239,11 +235,6 @@ while running:
                     screen = pygame.display.set_mode((altura_menu, largura_menu))
                     menu(screen, tam_menu, largura_menu, altura_menu, fonte) # função que apresentará o menu inicial do game
                     pygame.display.flip()
-
-    if teste:
-        
-        tela_jogo.blit(player_img,(player_x, player_y))
-        pygame.display.flip()
 
 
         

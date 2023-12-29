@@ -9,7 +9,7 @@ def morreu(matriz, comb, y):
     """
     Retorna se o jogador está morto ou vivo e o motivo da morte, respectivamente
     """
-    if '+' in matriz[y]:
+    if '+' in matriz[y] or '++' in matriz[y]:
         if comb <= 0:
             return 'sim gasosa'
         else:
