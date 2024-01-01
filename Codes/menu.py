@@ -45,7 +45,7 @@ def mostrar_instrucoes(h, l, corI, corII, tam, fonte):
     """
     Função que apresenta a tela de instruções.
     """   
-    screen = pygame.display.set_mode((h, l))
+    screen = pygame.display.set_mode((l, h))
     screen.fill(corI)
 
     string = 'Para se movimentar para cima ou para baixo' 

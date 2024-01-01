@@ -23,8 +23,9 @@ tam_jogo = 25
 largura_jogo = 135
 altura_jogo = 10
 tam_menu = 5 # tamanho da tela
-largura_menu = 72 * tam_menu
-altura_menu = 128 * tam_menu
+largura_menu = 200 * tam_menu
+altura_menu = 100 * tam_menu
+# tamanho da tela: 1000px de largura por 500px de altura
 
 # Lista bidimensional para armazenar objetos em movimento
 matriz = [[' ' for _ in range(largura_jogo)] for _ in range(altura_jogo)]
@@ -68,12 +69,15 @@ pygame.init()
 # configuracao do fps
 clock = pygame.time.Clock()
 
-screen = pygame.display.set_mode((altura_menu, largura_menu)) # tamanho da tela inicial
+screen = pygame.display.set_mode((largura_menu, altura_menu)) # tamanho da tela inicial
 pygame.display.set_caption(nome_do_jogo)
 
+
+
 # escrita da msg inicial ao abrir o jogo
-escrever(nome_do_jogo, screen, fonte, vermelho, 200, 135, tam_menu * 10)
-escrever('Bem vindo! Pressione Enter para continuar', screen, fonte, branco, 180, 250, tam_menu * 2)
+tela_inicial_img = pygame.image.load(".\imagens-de-fundo\-tela-inicial.jpg")
+menu_inicial_img = pygame.image.load(".\imagens-de-fundo\-tela-de-menu-i.jpg")
+screen.blit(tela_inicial_img, (0, 0))
 pygame.display.flip()
 
 running = True
@@ -86,9 +90,9 @@ while running:
                 running = False
 
             if event.type == pygame.KEYDOWN:
-                if event.key == 13:
-                    inicio, menu_inicial = False, True # o jogo nao esta mais no inicio
-                    menu(screen, tam_menu, largura_menu, altura_menu, fonte) # função que apresentará o menu inicial do game
+                inicio, menu_inicial = False, True # o jogo nao esta mais no inicio
+                screen.blit(menu_inicial_img, (0,0)) # função que apresentará o menu inicial do game
+                pygame.display.flip()
 
     if menu_inicial: # quando está no menu inicial
         for event in pygame.event.get():
@@ -106,10 +110,6 @@ while running:
                     instrucoes, menu_inicial = True, False
                     mostrar_instrucoes(altura_menu, largura_menu, preto, branco, tam_menu, fonte)
 
-                elif event.key == pygame.K_6:
-                    menu_inicial, teste = False, True
-                    tela_jogo = pygame.display.set_mode((largura_jogo * tam_jogo, altura_jogo * tam_jogo))
-
     if instrucoes:
         for event in pygame.event.get():
             if event.type == pygame.QUIT: # pygame.QUIT event means the user clicked X to close your window
@@ -118,8 +118,8 @@ while running:
             if event.type == pygame.KEYDOWN:
                 if event.key == 13:
                     menu_inicial, instrucoes = True, False # o jogo nao esta mais no inicio
-                    menu(screen, tam_menu, largura_menu, altura_menu, fonte) # função que apresentará o menu inicial do game
-
+                    screen.blit(menu_inicial_img, (0,0)) # função que apresentará o menu inicial do game
+                    pygame.display.flip()
 
 
     if playing: # quando o jogo está rodando
@@ -209,7 +209,7 @@ while running:
             if event.type == pygame.KEYDOWN:
                 if event.key == 13:
                     game_over, menu_inicial = False, True # o jogo nao esta mais no inicio
-                    menu(screen, tam_menu, largura_menu, altura_menu, fonte) # função que apresentará o menu inicial do game
+                    screen.blit(menu_inicial_img, (0,0)) # função que apresentará o menu inicial do game
                     pygame.display.flip()
 
     if  paused:
@@ -227,9 +227,9 @@ while running:
                     limpar_matriz(matriz, altura_jogo, largura_jogo)
                     player_x, player_y = 1, 5
                     matriz[player_y][player_x] = '+'
-                    screen = pygame.display.set_mode((altura_menu, largura_menu))
-                    menu(screen, tam_menu, largura_menu, altura_menu, fonte) # função que apresentará o menu inicial do game
-                    pygame.display.flip()
+                    screen = pygame.display.set_mode((largura_menu, altura_menu))
+                    screen.blit(menu_inicial_img, (0,0)) # função que apresentará o menu inicial do game
+                    pygame.display.flip() # função que apresentará o menu inicial do game
 
 
         

@@ -31,7 +31,7 @@ def tela_morte(l, h, fonte, t, pont, motivo):
     """
     Função que apresenta a tela de game over.
     """
-    screen = pygame.display.set_mode((h, l))
+    screen = pygame.display.set_mode((l, h))
     screen.fill((0, 0, 0))
 
     escrever('GAME OVER', screen, fonte, (255, 0, 0), 175, 50, t * 10)
