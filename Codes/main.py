@@ -19,8 +19,8 @@ game_overII = False
 instrucoes = False
 paused = False
 
-tam_jogo = 25
-largura_jogo = 135
+tam_jogo = 40
+largura_jogo = 50
 altura_jogo = 10
 tam_menu = 5 # tamanho da tela
 largura_menu = 200 * tam_menu
@@ -92,6 +92,8 @@ while running:
             if event.type == pygame.KEYDOWN:
                 inicio, menu_inicial = False, True # o jogo nao esta mais no inicio
                 screen.blit(menu_inicial_img, (0,0)) # função que apresentará o menu inicial do game
+                seletor = 1
+                posicionar_seta(seletor, screen)
                 pygame.display.flip()
 
     if menu_inicial: # quando está no menu inicial
@@ -99,16 +101,35 @@ while running:
             if event.type == pygame.QUIT: # pygame.QUIT event means the user clicked X to close your window
                 running = False    
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_5: # 5 pra sair
-                    running = False
+                if event.key == pygame.K_DOWN:
+                    if seletor < 5:
+                        seletor += 1
+                        screen.blit(menu_inicial_img, (0,0)) # função que apresentará o menu inicial do game
+                        posicionar_seta(seletor, screen)
+                        pygame.display.flip()
 
-                elif event.key == pygame.K_1: # 1 pra jogar
-                    playing, menu_inicial = True, False
-                    tela_jogo = pygame.display.set_mode((largura_jogo * tam_jogo, altura_jogo * tam_jogo))
+                elif event.key == pygame.K_UP: 
+                    if seletor > 1:
+                        seletor -= 1
+                        screen.blit(menu_inicial_img, (0,0)) # função que apresentará o menu inicial do game
+                        posicionar_seta(seletor, screen)
+                        pygame.display.flip()
 
-                elif event.key == pygame.K_4:
-                    instrucoes, menu_inicial = True, False
-                    mostrar_instrucoes(altura_menu, largura_menu, preto, branco, tam_menu, fonte)
+                elif event.key == 13:
+                    match seletor:
+                        case 1:
+                            playing, menu_inicial = True, False
+                            tela_jogo = pygame.display.set_mode((largura_jogo * tam_jogo, altura_jogo * tam_jogo))
+                            pygame.display.flip()
+                        case 2:
+                            pass
+                        case 3:
+                            pass
+                        case 4:
+                            instrucoes, menu_inicial = True, False
+                            mostrar_instrucoes(altura_menu, largura_menu, preto, branco, tam_menu, fonte)
+                        case 5:
+                            running = False
 
     if instrucoes:
         for event in pygame.event.get():
