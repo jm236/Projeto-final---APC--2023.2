@@ -165,8 +165,8 @@ while running:
         contador += 1
 
         # spawn de inimigos e combustível
-        spawn(matriz, enemy, prob_enemies, False, 4)
-        spawn(matriz, comb, prob_fuel, True, 2)
+        spawn(matriz, enemy, prob_enemies, False, 4, largura_jogo)
+        spawn(matriz, comb, prob_fuel, True, 2, largura_jogo)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT: # pygame.QUIT event means the user clicked X to close your window
@@ -231,6 +231,7 @@ while running:
                 if event.key == 13:
                     game_over, menu_inicial = False, True # o jogo nao esta mais no inicio
                     screen.blit(menu_inicial_img, (0,0)) # função que apresentará o menu inicial do game
+                    posicionar_seta(seletor, screen)
                     pygame.display.flip()
 
     if  paused:

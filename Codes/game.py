@@ -13,13 +13,6 @@ inimigo_img = pygame.image.load(".\imagens\inimigo-i.png")
 Arquivo com funções usadas enquanto o jogo roda.
 """
 
-def desenhar(screen, cor, x, y, size):
-    """"
-    Função que desenha um elemento específico na tela do jogo
-    """
-    pygame.draw.rect(screen, cor, (x * size,
-    y * size, size, size))
-
 def desenhar_img(element, x, y, screen, size):
     global player_img, player_shooting_img, tiro_img, creatina_img, inimigo_img
 
@@ -119,7 +112,7 @@ def mover_objetos(matriz, altura, largura, pont, energ):
     # retorno da matriz e dos valores da energia e pontuação após a movimentação    
     return matriz, pont, energ
 
-def spawn(matriz, objeto, prob, limpar, qtde_max):
+def spawn(matriz, objeto, prob, limpar, qtde_max, l):
     """
     Função que spawna aleatoriamente inimigos ou combustível no mapa
     OBS: chance em porcentagem
@@ -135,7 +128,7 @@ def spawn(matriz, objeto, prob, limpar, qtde_max):
                         y = randint(0, 9)
 
                         if y not in usadas:
-                            matriz[y][134] = objeto 
+                            matriz[y][l-1] = objeto 
                             usadas.append(y)
                             break
                 if limpar:
