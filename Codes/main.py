@@ -19,7 +19,7 @@ game_overII = False
 instrucoes = False
 paused = False
 
-tam_jogo = 20
+tam_jogo = 25
 largura_jogo = 135
 altura_jogo = 10
 tam_menu = 5 # tamanho da tela
