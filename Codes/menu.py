@@ -28,5 +28,11 @@ def posicionar_seta(seletor, screen):
         case 5:
             screen.blit(seta, (425, 357))
 
+def tocar_som(som):
+    pygame.mixer.init() 
+    pygame.mixer.music.load(som) 
+    pygame.mixer.music.set_volume(1) 
+    pygame.mixer.music.play()
+
 
 

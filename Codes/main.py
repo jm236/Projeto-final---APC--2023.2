@@ -91,6 +91,7 @@ while running:
 
             if event.type == pygame.KEYDOWN:
                 inicio, menu_inicial = False, True # o jogo nao esta mais no inicio
+                tocar_som('.\sons\som-quatro.mp3')
                 screen.blit(menu_inicial_img, (0,0)) # função que apresentará o menu inicial do game
                 seletor = 1
                 posicionar_seta(seletor, screen)
@@ -106,6 +107,8 @@ while running:
                         seletor += 1
                         screen.blit(menu_inicial_img, (0,0)) # função que apresentará o menu inicial do game
                         posicionar_seta(seletor, screen)
+                        tocar_som('.\sons\som-um.mp3')
+                        sleep(0.1)
                         pygame.display.flip()
 
                 elif event.key == pygame.K_UP: 
@@ -113,20 +116,24 @@ while running:
                         seletor -= 1
                         screen.blit(menu_inicial_img, (0,0)) # função que apresentará o menu inicial do game
                         posicionar_seta(seletor, screen)
+                        tocar_som('.\sons\som-um.mp3')
+                        sleep(0.1)
                         pygame.display.flip()
 
                 elif event.key == 13:
                     match seletor:
                         case 1:
                             playing, menu_inicial = True, False
+                            tocar_som('.\sons\som-quatro.mp3')
                             tela_jogo = pygame.display.set_mode((largura_jogo * tam_jogo, altura_jogo * tam_jogo))
                             pygame.display.flip()
                         case 2:
-                            pass
+                            tocar_som('.\sons\som-tres.mp3')
                         case 3:
-                            pass
+                            tocar_som('.\sons\som-tres.mp3')
                         case 4:
-                            instrucoes, menu_inicial = True, False
+                            tocar_som('.\sons\som-tres.mp3')
+                            #instrucoes, menu_inicial = True, False
                             #mostrar_instrucoes(altura_menu, largura_menu, preto, branco, tam_menu, fonte)
                         case 5:
                             running = False
@@ -209,7 +216,9 @@ while running:
                     matriz[player_y][player_x] = '+'
                     screen = pygame.display.set_mode((altura_menu, largura_menu))
                     screen.blit(menu_inicial_img, (0,0))
+                    seletor = 1
                     posicionar_seta(seletor, screen)
+                    tocar_som('.\sons\som-tres.mp3')
                     pygame.display.flip()
 
 
