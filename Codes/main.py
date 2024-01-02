@@ -127,7 +127,7 @@ while running:
                             pass
                         case 4:
                             instrucoes, menu_inicial = True, False
-                            mostrar_instrucoes(altura_menu, largura_menu, preto, branco, tam_menu, fonte)
+                            #mostrar_instrucoes(altura_menu, largura_menu, preto, branco, tam_menu, fonte)
                         case 5:
                             running = False
 
@@ -208,7 +208,8 @@ while running:
                     player_x, player_y = 1, 5
                     matriz[player_y][player_x] = '+'
                     screen = pygame.display.set_mode((altura_menu, largura_menu))
-                    menu(screen, tam_menu, largura_menu, altura_menu, fonte) # função que apresentará o menu inicial do game
+                    screen.blit(menu_inicial_img, (0,0))
+                    posicionar_seta(seletor, screen)
                     pygame.display.flip()
 
 
